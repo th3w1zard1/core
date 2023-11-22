@@ -150,10 +150,7 @@ class AwairSensor(CoordinatorEntity[AwairDataUpdateCoordinator], SensorEntity):
         if sensor_type in {API_VOC, API_SCORE}:
             return round(state)
 
-        if sensor_type == API_TEMP:
-            return round(state, 1)
-
-        return round(state, 2)
+        return round(state, 1) if sensor_type == API_TEMP else round(state, 2)
 
     @property
     def extra_state_attributes(self) -> dict:

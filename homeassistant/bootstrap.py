@@ -349,7 +349,7 @@ def async_enable_logging(
     datefmt = "%Y-%m-%d %H:%M:%S"
 
     if not log_no_color:
-        try:
+        with contextlib.suppress(ImportError):
             # pylint: disable-next=import-outside-toplevel
             from colorlog import ColoredFormatter
 
@@ -372,9 +372,6 @@ def async_enable_logging(
                     },
                 )
             )
-        except ImportError:
-            pass
-
     # If the above initialization failed for any reason, setup the default
     # formatting.  If the above succeeds, this will result in a no-op.
     logging.basicConfig(format=fmt, datefmt=datefmt, level=logging.INFO)
@@ -553,13 +550,11 @@ async def _async_set_up_integrations(
             ).values()
             if isinstance(int_or_exc, loader.Integration)
         ]
-        resolve_dependencies_tasks = [
+        if resolve_dependencies_tasks := [
             itg.resolve_dependencies()
             for itg in integrations_to_process
             if not itg.all_dependencies_resolved
-        ]
-
-        if resolve_dependencies_tasks:
+        ]:
             await asyncio.gather(*resolve_dependencies_tasks)
 
         for itg in integrations_to_process:

@@ -286,8 +286,7 @@ class OptionsFlowHandler(OptionsFlowWithConfigEntry):
             return self._async_apps_form(app_id)
 
         if user_input is not None:
-            app_id = user_input.get(CONF_APP_ID, self._conf_app_id)
-            if app_id:
+            if app_id := user_input.get(CONF_APP_ID, self._conf_app_id):
                 if user_input.get(CONF_APP_DELETE, False):
                     self._apps.pop(app_id)
                 else:
@@ -328,8 +327,7 @@ class OptionsFlowHandler(OptionsFlowWithConfigEntry):
             return self._async_rules_form(rule_id)
 
         if user_input is not None:
-            rule_id = user_input.get(CONF_RULE_ID, self._conf_rule_id)
-            if rule_id:
+            if rule_id := user_input.get(CONF_RULE_ID, self._conf_rule_id):
                 if user_input.get(CONF_RULE_DELETE, False):
                     self._state_det_rules.pop(rule_id)
                 elif det_rule := user_input.get(CONF_RULE_VALUES):

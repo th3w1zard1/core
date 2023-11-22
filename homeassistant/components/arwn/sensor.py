@@ -49,42 +49,43 @@ def discover_sensors(topic, payload):
                 UnitOfPrecipitationDepth.INCHES,
                 device_class=SensorDeviceClass.PRECIPITATION,
             )
-        return (
-            ArwnSensor(
-                topic + "/total",
-                "Total Rainfall",
-                "total",
-                unit,
-                device_class=SensorDeviceClass.PRECIPITATION,
-            ),
-            ArwnSensor(
-                topic + "/rate",
-                "Rainfall Rate",
-                "rate",
-                unit,
-                device_class=SensorDeviceClass.PRECIPITATION,
-            ),
+        return ArwnSensor(
+            f"{topic}/total",
+            "Total Rainfall",
+            "total",
+            unit,
+            device_class=SensorDeviceClass.PRECIPITATION,
+        ), ArwnSensor(
+            f"{topic}/rate",
+            "Rainfall Rate",
+            "rate",
+            unit,
+            device_class=SensorDeviceClass.PRECIPITATION,
         )
     if domain == "barometer":
         return ArwnSensor(topic, "Barometer", "pressure", unit, "mdi:thermometer-lines")
     if domain == "wind":
         return (
             ArwnSensor(
-                topic + "/speed",
+                f"{topic}/speed",
                 "Wind Speed",
                 "speed",
                 unit,
                 device_class=SensorDeviceClass.WIND_SPEED,
             ),
             ArwnSensor(
-                topic + "/gust",
+                f"{topic}/gust",
                 "Wind Gust",
                 "gust",
                 unit,
                 device_class=SensorDeviceClass.WIND_SPEED,
             ),
             ArwnSensor(
-                topic + "/dir", "Wind Direction", "direction", DEGREE, "mdi:compass"
+                f"{topic}/dir",
+                "Wind Direction",
+                "direction",
+                DEGREE,
+                "mdi:compass",
             ),
         )
 

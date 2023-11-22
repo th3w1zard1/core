@@ -472,10 +472,14 @@ def infer_unit(value: str) -> tuple[str, str | None]:
     pair. Else return the original value and None as the unit.
     """
 
-    for unit in ALL_UNITS:
-        if value.endswith(unit):
-            return value.removesuffix(unit), INFERRED_UNITS.get(unit, unit.strip())
-    return value, None
+    return next(
+        (
+            (value.removesuffix(unit), INFERRED_UNITS.get(unit, unit.strip()))
+            for unit in ALL_UNITS
+            if value.endswith(unit)
+        ),
+        (value, None),
+    )
 
 
 class APCUPSdSensor(SensorEntity):

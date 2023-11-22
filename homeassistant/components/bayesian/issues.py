@@ -18,7 +18,7 @@ def raise_mirrored_entries(
         ir.async_create_issue(
             hass,
             DOMAIN,
-            "mirrored_entry/" + text,
+            f"mirrored_entry/{text}",
             breaks_in_ha_version="2022.10.0",
             is_fixable=False,
             severity=ir.IssueSeverity.WARNING,

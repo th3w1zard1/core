@@ -275,7 +275,6 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 )
             )
 
-    # 2 -> 3: Moving AirVisual Pro to its own domain
     elif version == 2:
         version = 3
 
@@ -286,9 +285,10 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
             # Store the existing Pro device before the migration removes it:
             old_device_entry = next(
-                entry
-                for entry in dr.async_entries_for_config_entry(
-                    device_registry, entry.entry_id
+                iter(
+                    dr.async_entries_for_config_entry(
+                        device_registry, entry.entry_id
+                    )
                 )
             )
 
@@ -323,9 +323,10 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 if entry.data[CONF_IP_ADDRESS] == ip_address
             )
             new_device_entry = next(
-                entry
-                for entry in dr.async_entries_for_config_entry(
-                    device_registry, new_config_entry.entry_id
+                iter(
+                    dr.async_entries_for_config_entry(
+                        device_registry, new_config_entry.entry_id
+                    )
                 )
             )
 
