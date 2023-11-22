@@ -100,6 +100,4 @@ class AxisCamera(AxisEntity, MjpegCamera):
         if self.device.option_video_source != DEFAULT_VIDEO_SOURCE:
             options_dict["camera"] = self.device.option_video_source
 
-        if not options_dict:
-            return ""
-        return f"?{urlencode(options_dict)}"
+        return "" if not options_dict else f"?{urlencode(options_dict)}"

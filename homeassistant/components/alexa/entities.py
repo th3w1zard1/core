@@ -776,9 +776,7 @@ class BinarySensorCapabilities(AlexaEntity):
             return [DisplayCategory.CONTACT_SENSOR]
         if sensor_type is self.TYPE_MOTION:
             return [DisplayCategory.MOTION_SENSOR]
-        if sensor_type is self.TYPE_PRESENCE:
-            return [DisplayCategory.CAMERA]
-        return None
+        return [DisplayCategory.CAMERA] if sensor_type is self.TYPE_PRESENCE else None
 
     def interfaces(self) -> Generator[AlexaCapability, None, None]:
         """Yield the supported interfaces."""

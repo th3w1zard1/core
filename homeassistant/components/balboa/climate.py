@@ -85,9 +85,7 @@ class BalboaClimateEntity(BalboaEntity, ClimateEntity):
     @property
     def fan_mode(self) -> str | None:
         """Return the fan setting."""
-        if (blower := self._blower) is not None:
-            return blower.state.name.lower()
-        return None
+        return None if (blower := self._blower) is None else blower.state.name.lower()
 
     @property
     def precision(self) -> float:

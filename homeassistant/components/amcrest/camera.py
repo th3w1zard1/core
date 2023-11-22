@@ -379,17 +379,11 @@ class AmcrestCam(Camera):
             if self._brand is None:
                 resp = await self._api.async_vendor_information
                 _LOGGER.debug("Assigned brand=%s", resp)
-                if resp:
-                    self._brand = resp
-                else:
-                    self._brand = "unknown"
+                self._brand = resp if resp else "unknown"
             if self._model is None:
                 resp = await self._api.async_device_type
                 _LOGGER.debug("Assigned model=%s", resp)
-                if resp:
-                    self._model = resp
-                else:
-                    self._model = "unknown"
+                self._model = resp if resp else "unknown"
             if self._attr_unique_id is None:
                 serial_number = (await self._api.async_serial_number).strip()
                 if serial_number:

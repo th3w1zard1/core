@@ -121,10 +121,7 @@ def linkcode_resolve(domain, info):
         source, lineno = inspect.findsource(obj)
     except Exception:  # pylint: disable=broad-except
         lineno = None
-    if lineno:
-        linespec = "#L%d" % (lineno + 1)
-    else:
-        linespec = ""
+    linespec = "#L%d" % (lineno + 1) if lineno else ""
     index = fn.find("/homeassistant/")
     if index == -1:
         index = 0

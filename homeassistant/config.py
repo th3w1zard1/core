@@ -714,11 +714,7 @@ def _identify_config_schema(module: ModuleType) -> str | None:
         if isinstance(default_value, dict):
             return "dict"
 
-        if isinstance(default_value, list):
-            return "list"
-
-        return None
-
+        return "list" if isinstance(default_value, list) else None
     domain_schema = schema[key]
 
     t_schema = str(domain_schema)
@@ -744,10 +740,10 @@ def _recursive_merge(conf: dict[str, Any], package: dict[str, Any]) -> bool | st
                 cv.ensure_list(conf.get(key)) + cv.ensure_list(pack_conf)
             )
 
-        else:
-            if conf.get(key) is not None:
-                return key
+        elif conf.get(key) is None:
             conf[key] = pack_conf
+        else:
+            return key
     return error
 
 
@@ -823,8 +819,9 @@ async def merge_packages_config(
                 )
                 continue
 
-            error = _recursive_merge(conf=config[comp_name], package=comp_conf)
-            if error:
+            if error := _recursive_merge(
+                conf=config[comp_name], package=comp_conf
+            ):
                 _log_pkg_error(
                     pack_name, comp_name, config, f"has duplicate key '{error}'"
                 )
@@ -981,9 +978,7 @@ async def async_check_ha_config_file(hass: HomeAssistant) -> str | None:
 
     res = await check_config.async_check_ha_config_file(hass)
 
-    if not res.errors:
-        return None
-    return res.error_str
+    return None if not res.errors else res.error_str
 
 
 @callback
